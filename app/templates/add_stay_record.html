@@ -1,0 +1,32 @@
+<!DOCTYPE html>
+<html lang="ru">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Добавить запись</title>
+</head>
+
+<body>
+    <h1>Добавить запись о гостях на базе</h1>
+    <form action="/templated/stay_records/add" method="POST">
+        <label for="start">Дата начала (например, 2025-05-20T08:00:00):</label>
+        <input type="datetime-local" id="start" name="start" required><br><br>
+
+        <label for="end">Дата конца (например, 2025-05-20T12:00:00):</label>
+        <input type="datetime-local" id="end" name="end" required><br><br>
+
+        <label for="num_adults">Взрослые:</label>
+        <input type="number" id="num_adults" name="num_adults" required><br><br>
+
+        <label for="num_children">Дети:</label>
+        <input type="number" id="num_children" name="num_children" required><br><br>
+
+        <label for="num_infants">Младенцы:</label>
+        <input type="number" id="num_infants" name="num_infants" required><br><br>
+
+        <button type="submit">Добавить запись</button>
+    </form>
+</body>
+
+</html>

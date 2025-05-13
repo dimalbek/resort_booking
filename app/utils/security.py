@@ -59,6 +59,33 @@ def get_current_user(token: str = Depends(get_token_from_cookies), db: Session =
         )
 
 
+def get_token_from_cookies_first_visit(request: Request) -> str | None:
+    token = request.cookies.get("access_token")
+    if not token:
+        return None
+    return token
+
+def get_current_user_first_visit(token: str | None = Depends(get_token_from_cookies_first_visit), db: Session = Depends(get_db), ) -> User:
+    try:
+        if not token:
+            return None
+        
+        payload = jwt.decode(token, SECRET_KEY, algorithms=[ALGORITHM])
+        user_id = payload.get("user_id")
+        if user_id is None:
+            return None
+        user = users_repo.get(db, user_id)
+        if not user:
+            return None
+        
+        return user
+    except JWTError:
+        raise HTTPException(
+            status_code=status.HTTP_401_UNAUTHORIZED,
+            detail="Invalid authentication credentials",
+        )
+
+
 async def get_current_user2(request: Request, db: Session = Depends(get_db)) -> User:
     """Получение текущего пользователя из JWT в cookies"""
     try:

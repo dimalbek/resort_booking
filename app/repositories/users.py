@@ -22,10 +22,17 @@ class UsersRepository(BaseRepository[User, UserCreate, UserOut]):
         db.commit()
         return user
     
-    def reject_user(self, db: Session, user_id: int) -> User:
+    def disapprove_user(self, db: Session, user_id: int) -> User:
         user = self.get(db, user_id)
         if not user:
             raise HTTPException(status_code=404, detail="User not found")
         user.is_approved = False
         db.commit()
         return user
+    
+    def reject_user(self, db: Session, user_id: int) -> None:
+        user = self.get(db, user_id)
+        if not user:
+            raise HTTPException(status_code=404, detail="User not found")
+        db.delete(user)  # Удаляем пользователя из базы данных
+        db.commit()
