@@ -1,0 +1,19 @@
+<!-- templates/rooms_available.html -->
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Available Rooms</title>
+</head>
+<body>
+    <h1>Available Rooms</h1>
+    <ul>
+        {% for room in rooms %}
+        <li>Room: {{ room.room_number }}, Max Guests: {{ room.max_guests }}, Price: ${{ room.price_per_day }} per day</li>
+        {% else %}
+        <li>No rooms available for the selected dates.</li>
+        {% endfor %}
+    </ul>
+</body>
+</html>

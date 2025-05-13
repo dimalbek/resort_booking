@@ -1,0 +1,21 @@
+<!-- templates/available_rooms.html -->
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Доступные комнаты</title>
+</head>
+<body>
+    <h1>Доступные комнаты</h1>
+    {% if rooms %}
+    <ul>
+        {% for room in rooms %}
+        <li>Комната: {{ room.room_number }}, Цена: {{ room.price_per_day }} руб. / сутки</li>
+        {% endfor %}
+    </ul>
+    {% else %}
+    <p>На указанные даты нет доступных комнат.</p>
+    {% endif %}
+</body>
+</html>

@@ -1,0 +1,15 @@
+<!-- templates/room_created.html -->
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Комната создана</title>
+</head>
+<body>
+    <h1>Комната {{ room.room_number }} была успешно создана!</h1>
+    <p>Максимальное количество гостей: {{ room.max_guests }}</p>
+    <p>Цена за сутки: {{ room.price_per_day }} руб.</p>
+    <p><a href="/templated/rooms/available">Перейти к доступным комнатам</a></p>
+</body>
+</html>

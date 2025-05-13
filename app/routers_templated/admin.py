@@ -1,0 +1,58 @@
+# app/routers_templated/admin.py
+from fastapi import APIRouter, Depends, HTTPException, Request
+from sqlalchemy.orm import Session
+from fastapi.templating import Jinja2Templates
+
+from ..database.base import get_db
+from ..database.models import User
+from ..repositories.users import UsersRepository
+from ..schemas.schemas import UserOut
+from ..utils.security import get_current_user
+from typing import List
+import os
+
+templates = Jinja2Templates(directory=os.path.join(os.path.dirname(__file__), "templates"))
+
+router = APIRouter(prefix="/templated/admin", tags=["admin"])
+users_repo = UsersRepository()
+
+@router.get("/users/pending")
+def get_pending_users(request: Request, db: Session = Depends(get_db), current_user: User = Depends(get_current_user)):
+    if not current_user.is_admin:
+        raise HTTPException(status_code=403, detail="Admin access required")
+    
+    pending_users = db.query(User).filter(User.is_approved == False).all()
+    return templates.TemplateResponse("pending_users.html", {
+        "request": request,
+        "users": pending_users
+    })
+
+@router.post("/users/{user_id}/approve", response_model=UserOut)
+def approve_user(
+    request: Request,
+    user_id: int,
+    db: Session = Depends(get_db),
+    current_user: User = Depends(get_current_user),
+):
+    if not current_user.is_admin:
+        raise HTTPException(status_code=403, detail="Admin access required")
+    user = users_repo.approve_user(db, user_id)
+    return templates.TemplateResponse("approve_user.html", {
+        "request": request,
+        "user": user
+    })
+
+@router.post("/users/{user_id}/reject", response_model=UserOut)
+def reject_user(
+    request: Request,
+    user_id: int,
+    db: Session = Depends(get_db),
+    current_user: User = Depends(get_current_user),
+):
+    if not current_user.is_admin:
+        raise HTTPException(status_code=403, detail="Admin access required")
+    user = users_repo.reject_user(db, user_id)
+    return templates.TemplateResponse("reject_user.html", {
+        "request": request,
+        "user": user
+    })

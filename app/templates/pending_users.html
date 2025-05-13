@@ -1,0 +1,25 @@
+<!-- templates/pending_users.html -->
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Ожидающие пользователей</title>
+</head>
+<body>
+    <h1>Ожидающие пользователи</h1>
+    {% if users %}
+    <ul>
+        {% for user in users %}
+        <li>
+            {{ user.email }} — 
+            <a href="/templated/admin/users/{{ user.id }}/approve">Подтвердить</a> | 
+            <a href="/templated/admin/users/{{ user.id }}/reject">Отклонить</a>
+        </li>
+        {% endfor %}
+    </ul>
+    {% else %}
+    <p>Нет пользователей на подтверждение.</p>
+    {% endif %}
+</body>
+</html>
