@@ -1,0 +1,30 @@
+<!DOCTYPE html>
+<html lang="ru">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Мои активные записи</title>
+</head>
+
+<body>
+    <h1>Активные записи пользователя {{ user.email }}</h1>
+
+    <ul>
+        {% for record in stay_records %}
+        <li>
+            <p>Начало: {{ record.start }}</p>
+            <p>Конец: {{ record.end }}</p>
+            <p>Взрослых: {{ record.num_adults }}, Детей: {{ record.num_children }}, Младенцев: {{ record.num_infants }}
+            </p>
+
+            <form action="/templated/stay_records/users/{{ user.id }}/stay_records/{{ record.id }}/delete"
+                method="POST">
+                <button type="submit">Удалить запись</button>
+            </form>
+        </li>
+        {% endfor %}
+    </ul>
+</body>
+
+</html>

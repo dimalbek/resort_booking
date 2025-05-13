@@ -1,0 +1,25 @@
+<!DOCTYPE html>
+<html lang="ru">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Одобренные пользователи</title>
+</head>
+
+<body>
+    <h1>Одобренные пользователи</h1>
+    <ul>
+        {% for user in users %}
+        <li>
+            <p>{{ user.email }}</p>
+            <form action="/templated/admin/users/{{ user.id }}/revoke" method="POST">
+                <button type="submit">Отменить права</button>
+            </form>
+        </li>
+        {% endfor %}
+    </ul>
+    <p><a href="/templated">Вернуться на главную</a></p>
+</body>
+
+</html>

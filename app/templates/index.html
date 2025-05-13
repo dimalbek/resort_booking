@@ -1,19 +1,30 @@
-<!-- templates/index.html -->
 <!DOCTYPE html>
 <html lang="ru">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Система бронирования комнат на базах отдыха</title>
+    <title>Главная страница</title>
 </head>
 <body>
-    <h1>Добро пожаловать в систему бронирования!</h1>
-    <p>Выберите раздел:</p>
-    <ul>
-        <li><a href="/templated/auth/register">Регистрация</a></li>
-        <li><a href="/templated/auth/login">Вход</a></li>
-        <li><a href="/templated/rooms/available?date_from=2023-01-01&date_to=2023-01-07">Доступные комнаты</a></li>
-        <li><a href="/templated/bookings">Мои бронирования</a></li>
-    </ul>
+    <h1>Добро пожаловать на сайт базы отдыха</h1>
+
+    {% if not user %}
+        <p><a href="/templated/auth/register">Зарегистрироваться</a></p>
+        <p><a href="/templated/auth/login">Войти</a></p>
+    {% else %}
+        <h2>Привет, {{ user.email }}</h2>
+        <form action="/templated/auth/logout" method="post">
+            <button type="submit">Выйти</button>
+        </form>
+        <p><a href="/templated/stay_records/add">Добавить запись о гостях</a></p>
+        <p><a href="/templated/stay_records/current_count">Посмотреть текущих гостей</a></p>
+        <p><a href="/templated/stay_records/users/{{ user.id }}/stay_records">Посмотреть мои активные записи</a></p>
+
+        {% if user.is_admin %}
+            <h2>Администраторский доступ</h2>
+            <p><a href="/templated/admin/users/approved">Просмотреть всех одобренных пользователей</a></p>
+            <p><a href="/templated/admin/users/pending">Посмотреть ожидающих пользователей</a></p>
+        {% endif %}
+    {% endif %}
 </body>
 </html>

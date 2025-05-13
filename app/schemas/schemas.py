@@ -54,3 +54,23 @@ class BookingOut(BaseModel):
     num_adults: int
     num_children: int
     num_infants: int
+
+
+class StayRecordBase(BaseModel):
+    start: datetime
+    end: datetime
+    num_adults: int
+    num_children: int
+    num_infants: int
+
+
+class StayRecordCreate(StayRecordBase):
+    pass
+
+
+class StayRecordOut(StayRecordBase):
+    id: int
+    owner_id: int
+
+    class Config:
+        orm_mode = True
