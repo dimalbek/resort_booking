@@ -1,0 +1,15 @@
+<!-- templates/booking_success.html -->
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Успешное бронирование</title>
+</head>
+<body>
+    <h1>Бронирование комнаты №{{ booking.room_number }} прошло успешно!</h1>
+    <p>Дата заезда: {{ booking.start }}</p>
+    <p>Дата выезда: {{ booking.end }}</p>
+    <p><a href="/templated/bookings">Перейти к моим бронированиям</a></p>
+</body>
+</html>
