@@ -58,3 +58,7 @@ async def homepage(request: Request,  current_user: User | None = Depends(get_cu
 
     return templates.TemplateResponse("index.html", {"request": request, "user": current_user})
 
+
+@app.get("/healthcheck")
+def health_check():
+    return {"status": "ok"}
