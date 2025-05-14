@@ -1,12 +1,14 @@
 from fastapi import APIRouter, Depends, HTTPException, Request
 from sqlalchemy.orm import Session
 from fastapi.templating import Jinja2Templates
+from fastapi.responses import Response
 
 from ..database.base import get_db
-from ..database.models import User
+from ..database.models import User, StayRecord
 from ..repositories.users import UsersRepository
 from ..schemas.schemas import UserOut
 from ..utils.security import get_current_user
+from ..utils.timezone import now_almaty
 from typing import List
 import os
 
@@ -95,3 +97,18 @@ async def revoke_user_approval(
         "user": user,
         "message": "Права пользователя были отменены"
     })
+
+
+@router.post("/cleanup")
+async def delete_expired_records(
+    request: Request,
+    current_user=Depends(get_current_user),
+    db: Session = Depends(get_db),
+):
+    if not current_user.is_admin:
+        raise HTTPException(status_code=403, detail="Admin access required")
+    # Удаляем все записи, которые уже закончились
+    now = now_almaty()
+    deleted_count = db.query(StayRecord).filter(StayRecord.end < now).delete()
+    db.commit()
+    return Response(status_code=200, content="All expired records deleted")

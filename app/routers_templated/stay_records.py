@@ -12,10 +12,12 @@ from ..utils.timezone import now_almaty
 import os
 
 
-
-templates = Jinja2Templates(directory=os.path.join(os.path.dirname(__file__), "../templates"))
+templates = Jinja2Templates(
+    directory=os.path.join(os.path.dirname(__file__), "../templates")
+)
 router = APIRouter(prefix="/templated/stay_records", tags=["stay_records"])
 stay_records_repo = StayRecordsRepository()
+
 
 @router.get("/add")
 async def get_add_stay_record_form(request: Request):
@@ -42,15 +44,18 @@ async def add_stay_record(
     stay_record = stay_records_repo.create_stay_record(
         db, current_user.id, start, end, num_adults, num_children, num_infants, name
     )
-    return templates.TemplateResponse("add_success.html", {
-        "request": request,
-        "start": start,
-        "end": end,
-        "num_adults": num_adults,
-        "num_children": num_children,
-        "num_infants": num_infants,
-        "name": name
-    })
+    return templates.TemplateResponse(
+        "add_success.html",
+        {
+            "request": request,
+            "start": start,
+            "end": end,
+            "num_adults": num_adults,
+            "num_children": num_children,
+            "num_infants": num_infants,
+            "name": name,
+        },
+    )
 
 
 # @router.get("/current_count", response_model=dict)
@@ -68,6 +73,7 @@ async def add_stay_record(
 #     count = stay_records_repo.get_current_guests(db, owner_id, now)
 #     return count
 
+
 @router.get("/current_count")
 async def current_count_page(
     request: Request,
@@ -80,35 +86,37 @@ async def current_count_page(
     now = now_almaty()
     count = stay_records_repo.get_current_guests(db, current_user.id, now)
 
-    return templates.TemplateResponse("current_guests.html", {
-        "request": request,
-        "guests": count
-    })
+    return templates.TemplateResponse(
+        "current_guests.html", {"request": request, "guests": count}
+    )
 
 
 @router.get("/users/{user_id}/stay_records")
 async def get_user_stay_records(
-    request: Request, 
-    user_id: int, 
+    request: Request,
+    user_id: int,
     db: Session = Depends(get_db),
-    current_user: User = Depends(get_current_user)
+    current_user: User = Depends(get_current_user),
 ):
     if current_user.id != user_id or not current_user.is_approved:
         raise HTTPException(status_code=403, detail="Недостаточно прав для доступа")
-    
+
     now = now_almaty()
 
     # Получаем все активные записи (где дата окончания больше или равна текущей)
-    stay_records = db.query(StayRecord).filter(
-        StayRecord.owner_id == user_id,
-        StayRecord.end >= now  # Фильтрация по дате окончания
-    ).all()
-    
-    return templates.TemplateResponse("user_stay_records.html", {
-        "request": request,
-        "stay_records": stay_records,
-        "user": current_user
-    })
+    stay_records = (
+        db.query(StayRecord)
+        .filter(
+            StayRecord.owner_id == user_id,
+            StayRecord.end >= now,  # Фильтрация по дате окончания
+        )
+        .all()
+    )
+
+    return templates.TemplateResponse(
+        "user_stay_records.html",
+        {"request": request, "stay_records": stay_records, "user": current_user},
+    )
 
 
 @router.post("/users/{user_id}/stay_records/{record_id}/delete")
@@ -117,10 +125,12 @@ async def delete_stay_record(
     user_id: int,
     record_id: int,
     db: Session = Depends(get_db),
-    current_user: User = Depends(get_current_user)
+    current_user: User = Depends(get_current_user),
 ):
     if current_user.id != user_id or not current_user.is_approved:
-        raise HTTPException(status_code=403, detail="Недостаточно прав для удаления записи")
+        raise HTTPException(
+            status_code=403, detail="Недостаточно прав для удаления записи"
+        )
 
     stay_record = db.query(StayRecord).filter(StayRecord.id == record_id).first()
 
@@ -130,7 +140,10 @@ async def delete_stay_record(
     db.delete(stay_record)
     db.commit()
 
-    return templates.TemplateResponse("delete_record_success.html", {
-        "request": request, 
-        "message": f"Запись {stay_record.id} успешно удалена"
-    })
+    return templates.TemplateResponse(
+        "delete_record_success.html",
+        {"request": request, "message": f"Запись {stay_record.id} успешно удалена"},
+    )
+
+
+

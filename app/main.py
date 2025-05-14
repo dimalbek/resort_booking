@@ -13,6 +13,8 @@ from .routers_templated import auth as templated_auth
 from .routers_templated import stay_records as templated_stay_records
 # from .routers_templated import bookings as templated_bookings
 
+from fastapi.staticfiles import StaticFiles
+
 
 app = FastAPI()
 
@@ -27,6 +29,10 @@ app.add_middleware(
 
 # Подключаем Jinja2 для использования шаблонов
 templates = Jinja2Templates(directory=os.path.join(os.path.dirname(__file__), "templates"))
+
+# Подключаем папку для статики
+app.mount("/static", StaticFiles(directory="static"), name="static")
+
 
 # Включаем роутеры
 app.include_router(auth.router)
