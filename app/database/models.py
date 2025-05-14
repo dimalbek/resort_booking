@@ -28,6 +28,8 @@ class StayRecord(Base):
     num_adults = Column(Integer, nullable=False, default=0)
     num_children = Column(Integer, nullable=False, default=0)
     num_infants = Column(Integer, nullable=False, default=0)
+    name = Column(String, nullable=True)
+
 
     owner = relationship("User", back_populates="stay_records")
 

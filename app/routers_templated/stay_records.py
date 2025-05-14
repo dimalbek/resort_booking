@@ -25,6 +25,7 @@ async def get_add_stay_record_form(request: Request):
 @router.post("/add", response_model=StayRecordOut)
 async def add_stay_record(
     request: Request,
+    name: str = Form(...),
     start: datetime = Form(...),
     end: datetime = Form(...),
     num_adults: int = Form(...),
@@ -39,7 +40,7 @@ async def add_stay_record(
         )
 
     stay_record = stay_records_repo.create_stay_record(
-        db, current_user.id, start, end, num_adults, num_children, num_infants
+        db, current_user.id, start, end, num_adults, num_children, num_infants, name
     )
     return templates.TemplateResponse("add_success.html", {
         "request": request,
@@ -47,7 +48,8 @@ async def add_stay_record(
         "end": end,
         "num_adults": num_adults,
         "num_children": num_children,
-        "num_infants": num_infants
+        "num_infants": num_infants,
+        "name": name
     })
 
 

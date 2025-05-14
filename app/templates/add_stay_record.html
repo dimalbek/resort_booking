@@ -10,6 +10,9 @@
 <body>
     <h1>Добавить запись о гостях на базе</h1>
     <form action="/templated/stay_records/add" method="POST">
+        <label for="name">Название записи:</label>
+        <input type="text" id="name" name="name" required><br><br>
+        
         <label for="start">Дата начала (например, 2025-05-20T08:00:00):</label>
         <input type="datetime-local" id="start" name="start" required><br><br>
 
