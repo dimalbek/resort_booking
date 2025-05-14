@@ -4,27 +4,38 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Главная страница</title>
+    <link rel="stylesheet" href="/static/styles.css">
 </head>
 <body>
-    <h1>Добро пожаловать на сайт базы отдыха</h1>
+    <div class="container">
+        <h1>Добро пожаловать на сайт базы отдыха</h1>
 
-    {% if not user %}
-        <p><a href="/templated/auth/register">Зарегистрироваться</a></p>
-        <p><a href="/templated/auth/login">Войти</a></p>
-    {% else %}
-        <h2>Привет, {{ user.email }}</h2>
-        <form action="/templated/auth/logout" method="post">
-            <button type="submit">Выйти</button>
-        </form>
-        <p><a href="/templated/stay_records/add">Добавить запись о гостях</a></p>
-        <p><a href="/templated/stay_records/current_count">Посмотреть текущих гостей</a></p>
-        <p><a href="/templated/stay_records/users/{{ user.id }}/stay_records">Посмотреть мои активные записи</a></p>
-
-        {% if user.is_admin %}
-            <h2>Администраторский доступ</h2>
-            <p><a href="/templated/admin/users/approved">Просмотреть всех одобренных пользователей</a></p>
-            <p><a href="/templated/admin/users/pending">Посмотреть ожидающих пользователей</a></p>
+        {% if not user %}
+            <div class="card">
+                <h2>Добро пожаловать!</h2>
+                <p>Пожалуйста, войдите в свой аккаунт или зарегистрируйтесь, чтобы продолжить.</p>
+                <a href="/templated/auth/register" class="button">Зарегистрироваться</a>
+                <a href="/templated/auth/login" class="button">Войти</a>
+            </div>
+        {% else %}
+            <div class="card">
+                <h2>Привет, {{ user.email }}!</h2>
+                <form action="/templated/auth/logout" method="post">
+                    <button type="submit" class="button">Выйти</button>
+                </form>
+                <a href="/templated/stay_records/add" class="button">Добавить запись о гостях</a>
+                <a href="/templated/stay_records/current_count" class="button">Посмотреть текущих гостей</a>
+                <a href="/templated/stay_records/users/{{ user.id }}/stay_records" class="button">Посмотреть мои активные записи</a>
+                
+                {% if user.is_admin %}
+                    <div class="admin-panel">
+                        <h2>Панель администратора</h2>
+                        <a href="/templated/admin/users/approved" class="button">Просмотреть всех одобренных пользователей</a>
+                        <a href="/templated/admin/users/pending" class="button">Посмотреть ожидающих пользователей</a>
+                    </div>
+                {% endif %}
+            </div>
         {% endif %}
-    {% endif %}
+    </div>
 </body>
 </html>

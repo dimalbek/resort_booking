@@ -5,13 +5,33 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Текущие гости на базе</title>
+    <link rel="stylesheet" href="/static/styles.css">
 </head>
 
 <body>
-    <h1>Текущие гости на базе</h1>
-    <p>Взрослых: {{ guests.adults }}</p>
-    <p>Детей: {{ guests.children }}</p>
-    <p>Младенцев: {{ guests.infants }}</p>
+    <div class="container">
+        <h1>Текущие гости на базе</h1>
+
+        <div class="card">
+            <h2>Текущее распределение гостей</h2>
+            <div class="guest-info">
+                <div class="guest-category">
+                    <h3>Взрослые</h3>
+                    <p>{{ guests.adults }}</p>
+                </div>
+                <div class="guest-category">
+                    <h3>Дети</h3>
+                    <p>{{ guests.children }}</p>
+                </div>
+                <div class="guest-category">
+                    <h3>Младенцы</h3>
+                    <p>{{ guests.infants }}</p>
+                </div>
+            </div>
+        </div>
+
+        <a href="/templated" class="button">Вернуться на главную</a>
+    </div>
 </body>
 
 </html>
