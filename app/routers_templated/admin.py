@@ -111,4 +111,4 @@ async def delete_expired_records(
     now = now_almaty()
     deleted_count = db.query(StayRecord).filter(StayRecord.end < now).delete()
     db.commit()
-    return Response(status_code=200, content="All expired records deleted")
+    return {"deleted_records": deleted_count}
