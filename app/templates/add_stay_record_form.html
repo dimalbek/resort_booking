@@ -11,6 +11,9 @@
     <h1>Добавьте запись о гостях</h1>
 
     <form action="/templated/stay_records/add" method="post">
+        <label for="name">Название записи:</label>
+        <input type="text" id="name" name="name" required><br><br>
+
         <label for="start">Дата начала:</label>
         <input type="datetime-local" id="start" name="start" required><br><br>
 

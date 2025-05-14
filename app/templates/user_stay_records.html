@@ -13,6 +13,7 @@
     <ul>
         {% for record in stay_records %}
         <li>
+            <p><strong>Название:</strong> {{ record.name }}</p>
             <p>Начало: {{ record.start }}</p>
             <p>Конец: {{ record.end }}</p>
             <p>Взрослых: {{ record.num_adults }}, Детей: {{ record.num_children }}, Младенцев: {{ record.num_infants }}

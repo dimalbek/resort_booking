@@ -36,6 +36,7 @@ class StayRecordsRepository(
         num_adults: int,
         num_children: int,
         num_infants: int,
+        name: str = None, 
     ):
         """Функция для создания записи о людях на базе"""
         stay_record = StayRecord(
@@ -45,6 +46,7 @@ class StayRecordsRepository(
             num_adults=num_adults,
             num_children=num_children,
             num_infants=num_infants,
+            name=name,
         )
         db.add(stay_record)
         db.commit()

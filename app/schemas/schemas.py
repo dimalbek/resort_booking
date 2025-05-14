@@ -62,6 +62,7 @@ class StayRecordBase(BaseModel):
     num_adults: int
     num_children: int
     num_infants: int
+    name: str
 
 
 class StayRecordCreate(StayRecordBase):
