@@ -238,6 +238,7 @@ async def update_stay_record(
     user_id: int,
     record_id: int,
     name: str = Form(...),
+    room_number: str | None = Form(None),
     start: datetime = Form(...),
     end: datetime = Form(...),
     num_adults: int = Form(...),
@@ -258,6 +259,7 @@ async def update_stay_record(
         raise HTTPException(status_code=404, detail="Запись не найдена")
 
     record.name         = name
+    record.room_number  = room_number
     record.start        = to_utc(start)
     record.end          = to_utc(end)
     record.num_adults   = num_adults
