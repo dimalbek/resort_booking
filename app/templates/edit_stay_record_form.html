@@ -20,6 +20,12 @@
         </label>
 
         <label>
+            Номер комнаты:
+            <input type="text" name="room_number"
+                value="{{ record.room_number or '' }}">
+        </label>
+
+        <label>
             Начало:
             <input type="datetime-local" name="start"
                     value="{{ record.start_local.strftime('%Y-%m-%dT%H:%M') }}" required>
