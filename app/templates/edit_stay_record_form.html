@@ -11,9 +11,9 @@
 
     <h1>Редактировать запись</h1>
 
-    <form action="/templated/stay_records/users/{{ record.owner_id }}/stay_records/{{ record.id }}/update"
-          method="post">
 
+    <form action="/templated/stay_records/users/{{ user_id }}/stay_records/{{ record.id }}/update"
+        method="post">
         <label>
             Название:
             <input type="text" name="name" value="{{ record.name }}" required>
@@ -21,18 +21,16 @@
 
         <label>
             Начало:
-            <input type="datetime-local"
-                   name="start"
-                   value="{{ record.start.astimezone(pytz.timezone('Asia/Almaty')).strftime('%Y-%m-%dT%H:%M') }}"
-                   required>
+            <input type="datetime-local" name="start"
+                    value="{{ record.start.astimezone(pytz.timezone('Asia/Almaty')).strftime('%Y-%m-%dT%H:%M') }}"
+                    required>
         </label>
 
         <label>
             Конец:
-            <input type="datetime-local"
-                   name="end"
-                   value="{{ record.end.astimezone(pytz.timezone('Asia/Almaty')).strftime('%Y-%m-%dT%H:%M') }}"
-                   required>
+            <input type="datetime-local" name="end"
+                    value="{{ record.end.astimezone(pytz.timezone('Asia/Almaty')).strftime('%Y-%m-%dT%H:%M') }}"
+                    required>
         </label>
 
         <label>

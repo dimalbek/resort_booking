@@ -8,7 +8,7 @@ from ..database.models import User, StayRecord
 from ..repositories.users import UsersRepository
 from ..schemas.schemas import UserOut
 from ..utils.security import get_current_user
-from ..utils.timezone import now_almaty, now_utc
+from ..utils.timezone import now_almaty, now_utc, ensure_almaty
 from typing import List
 import os
 
