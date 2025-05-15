@@ -16,8 +16,8 @@
         {% for record in stay_records %}
         <li>
             <p><strong>Название:</strong> {{ record.name }}</p>
-            <p>Начало: {{ record.start.astimezone(pytz.timezone('Asia/Almaty')).strftime('%Y-%m-%d %H:%M') }}</p>
-            <p>Конец:  {{ record.end.astimezone(pytz.timezone('Asia/Almaty')).strftime('%Y-%m-%d %H:%M') }}</p>
+            <p>Начало: {{ record.start_local.strftime('%Y-%m-%d %H:%M') }}</p>
+            <p>Конец:  {{ record.end_local.strftime('%Y-%m-%d %H:%M') }}</p>
             <p>Взрослых: {{ record.num_adults }}, Детей: {{ record.num_children }}, Младенцев: {{ record.num_infants }}
             </p>
 
