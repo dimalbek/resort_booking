@@ -8,7 +8,7 @@ from ..database.models import User, StayRecord
 from ..repositories.users import UsersRepository
 from ..schemas.schemas import UserOut
 from ..utils.security import get_current_user
-from ..utils.timezone import now_almaty
+from ..utils.timezone import now_almaty, now_utc
 from typing import List
 import os
 
@@ -108,7 +108,8 @@ async def delete_expired_records(
     if not current_user.is_admin:
         raise HTTPException(status_code=403, detail="Admin access required")
     # Удаляем все записи, которые уже закончились
-    now = now_almaty()
-    deleted_count = db.query(StayRecord).filter(StayRecord.end < now).delete()
+    # now = now_almaty()
+    utc_now = now_utc()
+    deleted_count = db.query(StayRecord).filter(StayRecord.end < utc_now).delete(synchronize_session=False)
     db.commit()
     return {"deleted_records": deleted_count}
