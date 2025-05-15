@@ -21,6 +21,11 @@
             <p>Взрослых: {{ record.num_adults }}, Детей: {{ record.num_children }}, Младенцев: {{ record.num_infants }}
             </p>
 
+            <form action="/templated/stay_records/users/{{ user.id }}/stay_records/{{ record.id }}/edit"
+                method="get" style="display:inline">
+                <button class="button" type="submit">Изменить</button>
+            </form>
+
             <form action="/templated/stay_records/users/{{ user.id }}/stay_records/{{ record.id }}/delete"
                 method="POST">
                 <button type="submit">Удалить запись</button>

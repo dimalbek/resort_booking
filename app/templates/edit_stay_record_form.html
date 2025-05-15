@@ -1,0 +1,16 @@
+...
+<body>
+<div class="container">
+  <h1>Редактировать запись</h1>
+
+  <form action="/templated/stay_records/users/{{ record.owner_id }}/stay_records/{{ record.id }}/update"
+        method="post">
+
+    <!-- поля формы ... -->
+
+    <button type="submit" class="button">Сохранить</button>
+  </form>
+
+  <a href="/templated" class="button">Отмена</a>
+</div>
+</body>
