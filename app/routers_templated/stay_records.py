@@ -155,8 +155,8 @@ async def get_user_stay_records(
         {
             "id": r.id,
             "name": r.name,
-            "start": datetime_to_almaty(r.start),
-            "end":   datetime_to_almaty(r.end),
+            "start_local": datetime_to_almaty(r.start),
+            "end_local":   datetime_to_almaty(r.end),
             "num_adults":   r.num_adults,
             "num_children": r.num_children,
             "num_infants":  r.num_infants,
@@ -214,8 +214,8 @@ async def edit_stay_record_form(
     view_record = {                               #  <<<---
         "id": record.id,
         "name": record.name,
-        "start": datetime_to_almaty(record.start),
-        "end":   datetime_to_almaty(record.end),
+        "start_local": datetime_to_almaty(record.start),
+        "end_local":   datetime_to_almaty(record.end),
         "num_adults":   record.num_adults,
         "num_children": record.num_children,
         "num_infants":  record.num_infants,
