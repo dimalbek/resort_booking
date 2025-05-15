@@ -10,11 +10,14 @@ from ..repositories.stay_records import StayRecordsRepository
 from ..utils.security import get_current_user
 from ..utils.timezone import now_almaty, now_utc, to_utc, datetime_to_almaty
 import os
+import pytz
 
 
 templates = Jinja2Templates(
     directory=os.path.join(os.path.dirname(__file__), "../templates")
 )
+templates.env.globals["pytz"] = pytz  
+
 router = APIRouter(prefix="/templated/stay_records", tags=["stay_records"])
 stay_records_repo = StayRecordsRepository()
 

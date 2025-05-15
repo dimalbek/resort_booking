@@ -1,16 +1,59 @@
-...
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Редактировать запись</title>
+    <link rel="stylesheet" href="/static/styles.css">
+</head>
 <body>
 <div class="container">
-  <h1>Редактировать запись</h1>
 
-  <form action="/templated/stay_records/users/{{ record.owner_id }}/stay_records/{{ record.id }}/update"
-        method="post">
+    <h1>Редактировать запись</h1>
 
-    <!-- поля формы ... -->
+    <form action="/templated/stay_records/users/{{ record.owner_id }}/stay_records/{{ record.id }}/update"
+          method="post">
 
-    <button type="submit" class="button">Сохранить</button>
-  </form>
+        <label>
+            Название:
+            <input type="text" name="name" value="{{ record.name }}" required>
+        </label>
 
-  <a href="/templated" class="button">Отмена</a>
+        <label>
+            Начало:
+            <input type="datetime-local"
+                   name="start"
+                   value="{{ record.start.astimezone(pytz.timezone('Asia/Almaty')).strftime('%Y-%m-%dT%H:%M') }}"
+                   required>
+        </label>
+
+        <label>
+            Конец:
+            <input type="datetime-local"
+                   name="end"
+                   value="{{ record.end.astimezone(pytz.timezone('Asia/Almaty')).strftime('%Y-%m-%dT%H:%M') }}"
+                   required>
+        </label>
+
+        <label>
+            Взрослые:
+            <input type="number" name="num_adults" min="0" value="{{ record.num_adults }}" required>
+        </label>
+
+        <label>
+            Дети:
+            <input type="number" name="num_children" min="0" value="{{ record.num_children }}" required>
+        </label>
+
+        <label>
+            Младенцы:
+            <input type="number" name="num_infants" min="0" value="{{ record.num_infants }}" required>
+        </label>
+
+        <button type="submit" class="button">Сохранить</button>
+        <a href="/templated/stay_records/users/{{ record.owner_id }}/stay_records" class="button">Отмена</a>
+    </form>
+
 </div>
 </body>
+</html>
