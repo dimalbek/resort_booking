@@ -98,6 +98,29 @@ async def current_count_page(
     )
 
 
+@router.get("/guest_count")
+async def guest_count_form(request: Request):
+    return templates.TemplateResponse("guest_count_form.html", {"request": request})
+
+@router.post("/guest_count")
+async def guest_count_result(
+    request: Request,
+    at:  datetime = Form(...),
+    current_user: User = Depends(get_current_user),
+    db: Session = Depends(get_db),
+):
+    if not current_user.is_approved:
+        raise HTTPException(status_code=403, detail="Недостаточно прав")
+
+    at_utc = to_utc(at)
+    counts = stay_records_repo.get_current_guests(db, current_user.id, at_utc)
+
+    return templates.TemplateResponse(
+        "guest_count_result.html",
+        {"request": request, "at": at, "counts": counts}
+    )
+
+
 @router.get("/users/{user_id}/stay_records")
 async def get_user_stay_records(
     request: Request,
@@ -111,12 +134,11 @@ async def get_user_stay_records(
     # now = now_almaty()
     now = now_utc()
 
-    # Получаем все активные записи (где дата окончания больше или равна текущей)
     stay_records = (
         db.query(StayRecord)
         .filter(
             StayRecord.owner_id == user_id,
-            StayRecord.end >= now,  # Фильтрация по дате окончания
+            StayRecord.end >= now,
         )
         .all()
     )
@@ -155,6 +177,68 @@ async def delete_stay_record(
     return templates.TemplateResponse(
         "delete_record_success.html",
         {"request": request, "message": f"Запись {stay_record.id} успешно удалена"},
+    )
+
+
+
+
+@router.get("/users/{user_id}/stay_records/{record_id}/edit")
+async def edit_stay_record_form(
+    request: Request,
+    user_id: int,
+    record_id: int,
+    db: Session = Depends(get_db),
+    current_user: User = Depends(get_current_user),
+):
+    if current_user.id != user_id or not current_user.is_approved:
+        raise HTTPException(status_code=403, detail="Недостаточно прав")
+
+    record = db.query(StayRecord).filter(StayRecord.id == record_id).first()
+    if not record:
+        raise HTTPException(status_code=404, detail="Запись не найдена")
+
+    record.start = datetime_to_almaty(record.start)
+    record.end = datetime_to_almaty(record.end)
+
+    return templates.TemplateResponse(
+        "edit_stay_record_form.html",
+        {"request": request, "record": record}
+    )
+
+@router.post("/users/{user_id}/stay_records/{record_id}/update")
+async def update_stay_record(
+    request: Request,
+    user_id: int,
+    record_id: int,
+    name: str = Form(...),
+    start: datetime = Form(...),
+    end: datetime = Form(...),
+    num_adults: int = Form(...),
+    num_children: int = Form(...),
+    num_infants: int = Form(...),
+    current_user: User = Depends(get_current_user),
+    db: Session = Depends(get_db),
+):
+    if current_user.id != user_id or not current_user.is_approved:
+        raise HTTPException(status_code=403, detail="Недостаточно прав")
+
+    record = db.query(StayRecord).filter(StayRecord.id == record_id).first()
+    if not record:
+        raise HTTPException(status_code=404, detail="Запись не найдена")
+
+    record.name = name
+    record.start = to_utc(start)
+    record.end = to_utc(end)
+    record.num_adults = num_adults
+    record.num_children = num_children
+    record.num_infants = num_infants
+
+    db.commit()
+    db.refresh(record)
+
+    return templates.TemplateResponse(
+        "edit_success.html",
+        {"request": request, "record": record}
     )
 
 

@@ -1,0 +1,35 @@
+<!DOCTYPE html>
+<html lang="ru">
+
+<head>
+    <meta charset="UTF-8">
+    <title>Результат</title>
+    <link rel="stylesheet" href="/static/styles.css">
+</head>
+
+<body>
+    <div class="container">
+        <h1>Гости на {{ at }}</h1>
+
+        <div class="card">
+            <div class="guest-info">
+                <div class="guest-category">
+                    <h3>Взрослые</h3>
+                    <p>{{ counts.adults }}</p>
+                </div>
+                <div class="guest-category">
+                    <h3>Дети</h3>
+                    <p>{{ counts.children }}</p>
+                </div>
+                <div class="guest-category">
+                    <h3>Младенцы</h3>
+                    <p>{{ counts.infants }}</p>
+                </div>
+            </div>
+        </div>
+
+        <a href="/templated" class="button">На главную</a>
+    </div>
+</body>
+
+</html>

@@ -1,0 +1,26 @@
+<!DOCTYPE html>
+<html lang="ru">
+
+<head>
+    <meta charset="UTF-8">
+    <title>Гости на дату</title>
+    <link rel="stylesheet" href="/static/styles.css">
+</head>
+
+<body>
+    <div class="container">
+        <h1>Посмотреть количество гостей на дату</h1>
+
+        <form action="/templated/stay_records/guest_count" method="post">
+            <label>Дата и время (Asia/Almaty):
+                <input type="datetime-local" name="at" required>
+            </label>
+
+            <button type="submit" class="button">Посчитать</button>
+        </form>
+
+        <a href="/templated" class="button">На главную</a>
+    </div>
+</body>
+
+</html>

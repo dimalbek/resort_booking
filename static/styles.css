@@ -190,7 +190,9 @@ ul li p {
 }
 
 /* Стили заголовков */
-h1, h2, h3 {
+h1,
+h2,
+h3 {
     margin-bottom: 20px;
 }
 
@@ -228,4 +230,12 @@ h1, h2, h3 {
 .button:hover {
     background-color: #0056b3;
     box-shadow: 0 12px 40px rgba(0, 123, 255, 0.3);
+}
+
+
+
+/* делаем <button class="button"> таким же, как .button-ссылки */
+button.button {
+    border: none;
+    cursor: pointer;
 }
