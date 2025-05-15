@@ -25,6 +25,7 @@ class StayRecord(Base):
     )  # Ссылка на владельца базы отдыха
     # start = Column(DateTime, nullable=False)
     # end = Column(DateTime, nullable=False)
+    room_number  = Column(String, nullable=True)
     start = Column(DateTime(timezone=True), nullable=False)
     end   = Column(DateTime(timezone=True), nullable=False)
     num_adults = Column(Integer, nullable=False, default=0)

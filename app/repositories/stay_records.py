@@ -37,10 +37,12 @@ class StayRecordsRepository(
         num_children: int,
         num_infants: int,
         name: str = None, 
+        room_number: str | None = None,
     ):
         """Функция для создания записи о людях на базе"""
         stay_record = StayRecord(
             owner_id=owner_id,
+            room_number  = room_number,
             start=start,
             end=end,
             num_adults=num_adults,

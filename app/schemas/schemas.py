@@ -57,6 +57,7 @@ class BookingOut(BaseModel):
 
 
 class StayRecordBase(BaseModel):
+    room_number:  str | None = None
     start: datetime
     end: datetime
     num_adults: int

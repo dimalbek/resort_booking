@@ -43,6 +43,7 @@ async def get_add_stay_record_form(request: Request):
 async def add_stay_record(
     request: Request,
     name: str = Form(...),
+    room_number: str | None = Form(None),
     start: datetime = Form(...),
     end: datetime = Form(...),
     num_adults: int = Form(...),
@@ -60,7 +61,7 @@ async def add_stay_record(
 
     stay_records_repo.create_stay_record(           #  <<<---
         db, current_user.id, start_utc, end_utc,
-        num_adults, num_children, num_infants, name
+        num_adults, num_children, num_infants, name, room_number=room_number
     )
 
     return templates.TemplateResponse(
@@ -73,6 +74,7 @@ async def add_stay_record(
             "num_children": num_children,
             "num_infants": num_infants,
             "name": name,
+            "room_number": room_number,
         },
     )
 
@@ -155,6 +157,7 @@ async def get_user_stay_records(
         {
             "id": r.id,
             "name": r.name,
+            "room_number": r.room_number,
             "start_local": datetime_to_almaty(r.start),
             "end_local":   datetime_to_almaty(r.end),
             "num_adults":   r.num_adults,
@@ -214,6 +217,7 @@ async def edit_stay_record_form(
     view_record = {                               #  <<<---
         "id": record.id,
         "name": record.name,
+        "room_number": record.room_number,
         "start_local": datetime_to_almaty(record.start),
         "end_local":   datetime_to_almaty(record.end),
         "num_adults":   record.num_adults,
