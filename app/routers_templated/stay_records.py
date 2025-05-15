@@ -8,7 +8,7 @@ from ..database.models import User, StayRecord
 from ..schemas.schemas import StayRecordCreate, StayRecordOut
 from ..repositories.stay_records import StayRecordsRepository
 from ..utils.security import get_current_user
-from ..utils.timezone import now_almaty
+from ..utils.timezone import now_almaty, now_utc, to_utc, datetime_to_almaty
 import os
 
 
@@ -40,10 +40,15 @@ async def add_stay_record(
         raise HTTPException(
             status_code=403, detail="Недостаточно прав для добавления записи"
         )
+    
+    start_utc = to_utc(start)
+    end_utc   = to_utc(end)
 
     stay_record = stay_records_repo.create_stay_record(
-        db, current_user.id, start, end, num_adults, num_children, num_infants, name
+        db, current_user.id, start_utc, end_utc,
+        num_adults, num_children, num_infants, name
     )
+
     return templates.TemplateResponse(
         "add_success.html",
         {
@@ -83,7 +88,9 @@ async def current_count_page(
     if not current_user.is_approved:
         raise HTTPException(status_code=403, detail="Недостаточно прав для доступа")
 
-    now = now_almaty()
+    # now = now_almaty()
+    now = now_utc()
+
     count = stay_records_repo.get_current_guests(db, current_user.id, now)
 
     return templates.TemplateResponse(
@@ -101,7 +108,8 @@ async def get_user_stay_records(
     if current_user.id != user_id or not current_user.is_approved:
         raise HTTPException(status_code=403, detail="Недостаточно прав для доступа")
 
-    now = now_almaty()
+    # now = now_almaty()
+    now = now_utc()
 
     # Получаем все активные записи (где дата окончания больше или равна текущей)
     stay_records = (
@@ -112,6 +120,10 @@ async def get_user_stay_records(
         )
         .all()
     )
+
+    for r in stay_records:
+        r.start = datetime_to_almaty(r.start)
+        r.end   = datetime_to_almaty(r.end)
 
     return templates.TemplateResponse(
         "user_stay_records.html",
